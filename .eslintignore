@@ -1,0 +1,16 @@
+node_modules/
+reports/
+allure-results/
+allure-report/
+html-report/
+json-report/
+junit-report/
+test-results/
+failed-screenshots/
+logs/
+screenshot/
+coverage/
+playwright-report/
+.env
+.env.*
+.DS_Store
