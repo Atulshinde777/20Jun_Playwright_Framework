@@ -33,6 +33,7 @@ export default defineConfig({
     ["list"], // live console output
     ["html", { outputFolder: "reports/html-report" }], // clickable HTML report
     ["allure-playwright", { resultsDir: "reports/allure-results" }], // rich report
+    ["junit", { outputFile: "reports/junit-report/results.xml" }],
     ["./utils/logger.js"],
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
