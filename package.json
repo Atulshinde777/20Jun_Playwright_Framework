@@ -30,7 +30,7 @@
     "test:ui": "npx playwright test --ui",
     "show-trace": "npx playwright show-trace",
     "report": "npx playwright show-report reports/html-report",
-    "allure:generate": "rimraf reports/allure-report && allure generate reports/allure-results --clean -o reports/allure-report",
+    "allure:generate": "allure generate reports/allure-results --clean -o allure-report",
     "allure:open": "allure open reports/allure-report",
     "allure:serve": "allure serve reports/allure-results",
     "clean": "rimraf reports test-results"

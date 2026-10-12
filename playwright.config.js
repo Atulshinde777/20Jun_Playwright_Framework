@@ -28,14 +28,31 @@ export default defineConfig({
   workers: process.env.CI ? 1 : 4,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   // reporter: 'html',
+
   reporter: [
-    // ← SUMMARIES (10.1)
-    ["list"], // live console output
-    ["html", { outputFolder: "reports/html-report" }], // clickable HTML report
-    ["allure-playwright", { resultsDir: "reports/allure-results" }], // rich report
-    ["junit", { outputFile: "reports/junit-report/results.xml" }],
-    ["./utils/logger.js"],
+    [
+      'junit',
+      {
+        outputFile: 'reports/junit-report/results.xml'
+      }
+    ],
+    [
+      'html',
+      {
+        outputFolder: 'playwright-report',
+        open: 'never'
+      }
+    ],
+    [
+      'allure-playwright',
+      {
+        resultsDir: 'reports/allure-results',
+        detail: true,
+        suiteTitle: true
+      }
+    ]
   ],
+
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('')`. */
