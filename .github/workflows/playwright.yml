@@ -1,27 +1,61 @@
+# Display name shown on the repository's Actions tab.
 name: Playwright Tests
+# Events that start this workflow.
 on:
   push:
+    # Run when commits are pushed to either listed branch.
     branches: [main, master]
   pull_request:
+    # Run for pull requests whose target branch is main or master.
     branches: [main, master]
+  # Allow a user to start a run manually from the Actions tab.
+  workflow_dispatch:
+
+# Give the workflow only the repository access it needs.
+permissions:
+  contents: read
+
+# A workflow can contain one or more jobs.
 jobs:
+  # Job identifier used in the Actions run details.
   test:
+    # Stop this job if it runs longer than one hour.
     timeout-minutes: 60
+    # Use a temporary GitHub-hosted Ubuntu virtual machine.
     runs-on: ubuntu-latest
+    # Environment variables available to every step in this job.
+    env:
+      CI: "true"
+      HEADLESS: "true"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      # Download the repository source code onto the runner.
+      - uses: actions/checkout@v7
+      # Install Node.js and cache npm's downloaded package data.
+      - uses: actions/setup-node@v7
         with:
           node-version: lts/*
+          cache: npm
+      # Install exact dependency versions from package-lock.json.
       - name: Install dependencies
         run: npm ci
+      # Install Playwright browsers and their required Linux packages.
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
+      # Run the package test script; Playwright config selects browsers and tests.
       - name: Run Playwright tests
-        run: npx playwright test
-      - uses: actions/upload-artifact@v4
+        run: npm test
+      # Save reports and failure attachments so they remain downloadable after the runner ends.
+      - uses: actions/upload-artifact@v7
+        # Upload even when tests fail, but skip if the whole run was cancelled.
         if: ${{ !cancelled() }}
         with:
-          name: playwright-report
-          path: playwright-report/
+          name: playwright-reports-and-results
+          # These paths must match the output folders configured by Playwright.
+          path: |
+            reports/html-report/
+            reports/allure-results/
+            test-results/
+          # Keep the artifact available for 30 days.
           retention-days: 30
+          # Warn, rather than fail the job, if an output folder was not created.
+          if-no-files-found: warn

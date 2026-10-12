@@ -43,7 +43,7 @@ export default defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     // trace: 'on-first-retry',
     // baseURL: 'https://www.saucedemo.com',
-    headless: false,
+    headless: env.headless,
 
     baseURL: env.baseURL,
     actionTimeout: env.timeouts.action,
