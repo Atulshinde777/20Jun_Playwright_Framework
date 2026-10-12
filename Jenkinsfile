@@ -6,26 +6,31 @@ pipeline {
         // Configure NodeJS installation as Node20 in Jenkins > Tools
         nodejs 'Node20'
     }
+parameters {
+    choice(
+        name: 'BRANCH',
+        choices: ['master', 'develop'],
+        description: 'Select the Git branch to execute tests from'
+    )
 
-    parameters {
-        choice(
-            name: 'ENVIRONMENT',
-            choices: ['qa', 'dev', 'staging'],
-            description: 'Framework environment to test'
-        )
+    choice(
+        name: 'ENVIRONMENT',
+        choices: ['qa', 'dev', 'staging'],
+        description: 'Environment to test'
+    )
 
-        choice(
-            name: 'BROWSER',
-            choices: ['all', 'chromium', 'firefox', 'webkit'],
-            description: 'Browser project(s) to run'
-        )
+    choice(
+        name: 'BROWSER',
+        choices: ['all', 'chromium', 'firefox', 'webkit'],
+        description: 'Browser to execute tests on'
+    )
 
-        choice(
-            name: 'SUITE',
-            choices: ['all', 'smoke', 'regression'],
-            description: 'Test suite to execute'
-        )
-    }
+    choice(
+        name: 'SUITE',
+        choices: ['all', 'smoke', 'regression'],
+        description: 'Test suite to execute'
+    )
+}
 
     options {
         skipDefaultCheckout(true)
